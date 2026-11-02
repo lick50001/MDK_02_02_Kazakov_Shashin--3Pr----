@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snake", "Snake\Snake.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{5F95D4E8-51BF-47F6-996C-32C00B74351F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeWPF", "SnakeWPF\SnakeWPF.csproj", "{3B0CCE68-FAE6-43D3-B03B-00E7836FE56F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5F95D4E8-51BF-47F6-996C-32C00B74351F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F95D4E8-51BF-47F6-996C-32C00B74351F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F95D4E8-51BF-47F6-996C-32C00B74351F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B0CCE68-FAE6-43D3-B03B-00E7836FE56F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B0CCE68-FAE6-43D3-B03B-00E7836FE56F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B0CCE68-FAE6-43D3-B03B-00E7836FE56F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B0CCE68-FAE6-43D3-B03B-00E7836FE56F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
