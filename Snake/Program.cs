@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using System.Xml;
+using Newtonsoft.Json;
 
 namespace Snake
 {
@@ -71,20 +72,32 @@ namespace Snake
                     Console.ForegroundColor= ConsoleColor.Green;
                     Console.WriteLine("Получил команду: " + returnData.ToString());
 
-                    if ( returnData.ToString() > 0 )
+                    if ( returnData.ToString().Contains("/start"))
                     {
+                        string[] dataMessage = returnData.ToString().Split('|');
+                        ViewModelUserSettings viewModelUserSettings = JsonConvert.DeserializeObject<ViewModelUserSettings>(dataMessage[1]);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Подключился пользователь: {viewModelUserSettings.IPAddress}:{viewModelUserSettings.Port}");
+                        remoteIPAddress.Add(viewModelUserSettings);
+                        viewModelUserSettings.IdSnake = AddSnake();
+                        viewModelGames[viewModelUserSettings.IdSnake].IdSnake = viewModelUserSettings.IdSnake;
+                    }
+                    else
+                    {
+                        string[] dataMessage = returnData.ToString().Split('|');
+                        ViewModelUserSettings viewModelUserSettings = JsonConvert.DeserializeObject<ViewModelUserSettings>(dataMessage[1]);
+                        int IdPlayer = -1;
+                        IdPlayer = remoteIPAddress.FindIndex(x=>x.IPAddress == viewModelUserSettings.IPAddress && x.Port == viewModelUserSettings.Port);
+                        if ( IdPlayer != -1 )
+                        {
+                            if (dataMessage[0] == "Up" &&
+                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down)
+                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
 
+                            //ЗАКОНЧИТЬ!!!!!!!
+                        }
                     }
                 }
-                
-                
-                string[] parts = message.Split(new[] { '|' }, 2);
-                if (parts.Length < 2) continue;
-
-                string command = parts[0];
-                var user = JsonConvert.DeserializeObject<ViewModelUserSettings>(parts[1]);
-
-                
             }
             catch (Exception ex)
             {
