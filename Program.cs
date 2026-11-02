@@ -13,7 +13,7 @@ namespace Snake
         public static List<ViewModelGames> viewModelGames = new List<ViewModelGames> ();
         public static int localPort = 5001;
         public static int MaxSpeed = 15;
-        
+      
         static void Main(string[] args)
         {
         }
