@@ -276,13 +276,19 @@ namespace Snake
 
         static void Main(string[] args)
         {
-            LoadLeaders();
+            try
+            {
+                Thread tRec = new Thread(new ThreadStart(Receiver));
+                tRec.Start();
 
-            new Thread(Receiver) { IsBackground = true }.Start();
-            new Thread(Timer) { IsBackground = true }.Start();
-
-            Console.WriteLine("Сервер запущен. Нажмите Enter для выхода.");
-            Console.ReadLine();
+                Thread tTime = new Thread(Timer);
+                tTime.Start();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Возникло исключение: " + ex.ToString() + "\n " + ex.Message);
+            }
         }
     }
 }
