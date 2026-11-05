@@ -116,7 +116,6 @@ namespace Snake
             }
         }
 
-        // ---------- Добавление змеи ----------
         public static int AddSnake()
         {
             ViewModelGames viewModelGamesPlayer = new ViewModelGames();
@@ -132,15 +131,6 @@ namespace Snake
             viewModelGamesPlayer.Points = new Snakes.Point(new Random().Next(10, 783), new Random().Next(10, 410));
             viewModelGames.Add(viewModelGamesPlayer);
             return viewModelGames.FindIndex(x => x == viewModelGamesPlayer);
-        }
-
-        private static void NewApple()
-        {
-            Apple = new Snakes.Point
-            {
-                X = rnd.Next(1, GameSettings.Width - 1),
-                Y = rnd.Next(1, GameSettings.Height - 1)
-            };
         }
 
         // ---------- Игровой цикл ----------
