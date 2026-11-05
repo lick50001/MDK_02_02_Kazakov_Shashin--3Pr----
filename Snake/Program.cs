@@ -260,17 +260,18 @@ namespace Snake
 
         public static void LoadLeaders()
         {
-            try
+            if (File.Exists("./leaders.txt"))
             {
-                if (File.Exists(LeadersFile))
-                    Leaders = JsonConvert.DeserializeObject < List < Leaders»(File.ReadAllText(LeadersFile))
-                                ?? new List<Leaders>();
+                StreamReader SR = new StreamReader("./leaders.txt");
+                string json = SR.ReadLine();
+                SR.Close();
+                if (!string.IsNullOrEmpty(json))
+                    Leaders = JsonConvert.DeserializeObject<List<Leaders>>(json);
+                else
+                    Leaders = new List<Leaders>();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ошибка загрузки рекордов: " + ex.Message);
+            else
                 Leaders = new List<Leaders>();
-            }
         }
 
         static void Main(string[] args)
