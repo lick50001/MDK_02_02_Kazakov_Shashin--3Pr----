@@ -21,13 +21,6 @@ namespace Snake
         private static int localPort = 5001;
         public static int MaxSpeed = 15;
 
-        public static Snakes.Point Apple = new Snakes.Point();
-
-        private static readonly object Sync = new object();
-        private static readonly Random rnd = new Random();
-        private static int nextId = 1;
-        private const string LeadersFile = "leaders.json";
-
         public static void Send()
         {
             foreach (ViewModelUserSettings User in remoteIPAddress)
