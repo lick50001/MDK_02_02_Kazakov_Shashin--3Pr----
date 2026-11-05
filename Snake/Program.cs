@@ -63,16 +63,18 @@ namespace Snake
 
             try
             {
-                Console.WriteLine("Команд сервера: ");
+                Console.WriteLine("Команды сервера:");
                 while (true)
                 {
-                    byte[] receiveBytes = receivingUdpClient.Receive(ref RemoteIpEndPoint);
+                    byte[] receiveBytes = receivingUdpClient.Receive(
+                        ref RemoteIpEndPoint);
+
                     string returnData = Encoding.UTF8.GetString(receiveBytes);
 
-                    Console.ForegroundColor= ConsoleColor.Green;
-                    Console.WriteLine("Получил команду: " + returnData.ToString());
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Получили команду: " + returnData.ToString());
 
-                    if ( returnData.ToString().Contains("/start"))
+                    if (returnData.ToString().Contains("/start"))
                     {
                         string[] dataMessage = returnData.ToString().Split('|');
                         ViewModelUserSettings viewModelUserSettings = JsonConvert.DeserializeObject<ViewModelUserSettings>(dataMessage[1]);
@@ -87,46 +89,49 @@ namespace Snake
                         string[] dataMessage = returnData.ToString().Split('|');
                         ViewModelUserSettings viewModelUserSettings = JsonConvert.DeserializeObject<ViewModelUserSettings>(dataMessage[1]);
                         int IdPlayer = -1;
-                        IdPlayer = remoteIPAddress.FindIndex(x=>x.IPAddress == viewModelUserSettings.IPAddress && x.Port == viewModelUserSettings.Port);
-                        if ( IdPlayer != -1 )
+                        IdPlayer = remoteIPAddress.FindIndex(x => x.IPAddress == viewModelUserSettings.IPAddress
+                            && x.Port == viewModelUserSettings.Port);
+                        if (IdPlayer != -1)
                         {
                             if (dataMessage[0] == "Up" &&
                                 viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down)
                                 viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
-
-                            //ЗАКОНЧИТЬ!!!!!!!
+                            else if (dataMessage[0] == "Down" &&
+                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Up)
+                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Down;
+                            else if (dataMessage[0] == "Left" &&
+                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Right)
+                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Left;
+                            else if (dataMessage[0] == "Right" &&
+                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Left)
+                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Right;
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Ошибка приёма: " + ex.ToString() + "\n " + ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Возникло исключение: " + ex.ToString() + "\n " + ex.Message);
             }
-            
         }
 
         // ---------- Добавление змеи ----------
-        public static void AddSnake(ViewModelUserSettings user)
+        public static int AddSnake()
         {
-            user.IdSnake = nextId++;
-
-            var snake = new Snakes { direction = Snakes.Direction.Right };
-            int x = rnd.Next(5, GameSettings.Width - 5);
-            int y = rnd.Next(2, GameSettings.Height - 2);
-            for (int i = 0; i < 3; i++)
-                snake.Points.Add(new Snakes.Point { X = x - i, Y = y });
-
-            if (remoteIPAddress.Count == 0 || (Apple.X == 0 && Apple.Y == 0))
-                NewApple();
-
-            remoteIPAddress.Add(user);
-            viewModelGames.Add(new ViewModelGames
+            ViewModelGames viewModelGamesPlayer = new ViewModelGames();
+            viewModelGamesPlayer.SnakesPlayers = new Snakes()
             {
-                SnakesPlayers = snake,
-                IdSnake = user.IdSnake,
-                Add = Apple
-            });
+                Points = new List<Snakes.Point>() {
+            new Snakes.Point() { X = 30, Y = 10 },
+            new Snakes.Point() { X = 20, Y = 10 },
+            new Snakes.Point() { X = 10, Y = 10 },
+        },
+                direction = Snakes.Direction.Start
+            };
+            viewModelGamesPlayer.Points = new Snakes.Point(new Random().Next(10, 783), new Random().Next(10, 410));
+            viewModelGames.Add(viewModelGamesPlayer);
+            return viewModelGames.FindIndex(x => x == viewModelGamesPlayer);
         }
 
         private static void NewApple()
