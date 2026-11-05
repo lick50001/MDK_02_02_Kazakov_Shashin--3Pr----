@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Common;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Common;
 using System.Xml;
-using Newtonsoft.Json;
 
 namespace Snake
 {
@@ -251,14 +252,10 @@ namespace Snake
 
         public static void SaveLeaders()
         {
-            try
-            {
-                File.WriteAllText(LeadersFile, JsonConvert.SerializeObject(Leaders, Formatting.Indented));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ошибка сохранения рекордов: " + ex.Message);
-            }
+            string json = JsonConvert.SerializeObject(Leaders);
+            StreamWriter SW = new StreamWriter("./leaders.txt");
+            SW.WriteLine(json);
+            SW.Close();
         }
 
         public static void LoadLeaders()
