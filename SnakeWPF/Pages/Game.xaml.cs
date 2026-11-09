@@ -1,7 +1,9 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -93,7 +95,7 @@ namespace SnakeWPF.Pages
                     canvas.Children.Add(ellipse);
                 }
                 ImageBrush myBrush = new ImageBrush();
-                myBrush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/apple.png"));
+                myBrush.ImageSource = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + @"\Image\apple.png"));
 
                 Ellipse points = new Ellipse()
                 {
