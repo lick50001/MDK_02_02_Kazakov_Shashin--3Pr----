@@ -97,6 +97,7 @@ namespace SnakeWPF.Pages
                 ImageBrush myBrush = new ImageBrush();
                 myBrush.ImageSource = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + @"\Image\apple.png"));
 
+
                 Ellipse points = new Ellipse()
                 {
                     Width = 40,
